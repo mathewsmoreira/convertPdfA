@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+
+  db:
+    build: "./postgres"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pp2mipx9a
+    volumes:
+      - /home/matheus/projetos_java/products-api/postgres_data:/var/lib/postgresql/data
+
+  maven:
+    build: "."
+    restart: always
+    depends_on:
+      -  db
+      
+  eclipse-temurin:
+    build: "."
+    restart: always
+    ports:
+      - 8585:8585
+    depends_on:
+      - db
+      - maven
+  
